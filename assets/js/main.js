@@ -1,6 +1,7 @@
 /* get dom elements */
 const board = document.getElementById('board');
 const errorsCounter = document.getElementById('errors-counter');
+const startBtn = document.getElementById('startBtn');
 
 /* cards array */
 const cards = ['alien', 'bug', 'duck', 'rocket', 'spaceship', 'tiktac', 'alien', 'bug', 'duck', 'rocket', 'spaceship', 'tiktac'];
@@ -11,6 +12,7 @@ let shuffledCards = [];
 let firstCardFlipped = null;
 let secondCardFlipped = null;
 let errors = 0;
+let flippingCards = false;
 
 
 function getRndInteger(min, max) {
@@ -54,7 +56,7 @@ function generateCards(shuffledArray) {
 function flipCard() {
 
     /* if I try to reclick on the uncovered card or on a matched card, it doesn't create a new image*/
-    if (this === firstCardFlipped || this.classList.contains('matched')) {
+    if (flippingCards || this === firstCardFlipped || this === secondCardFlipped || this.classList.contains('matched')) {
         return;
     }
 
@@ -69,6 +71,7 @@ function flipCard() {
     }
     else {
         secondCardFlipped = this;
+        flippingCards = true;
         checkForMatch();
     }
 }
@@ -85,28 +88,32 @@ function checkForMatch() {
     }
 }
 
+//reset cards to null
 function resetFlippedCards() {
     firstCardFlipped = null;
     secondCardFlipped = null;
+    flippingCards = false;
 }
 
+//turn back cards and reset them to null; display error counter
 function turnBackCards() {
     firstCardFlipped.querySelector('img').remove();
     secondCardFlipped.querySelector('img').remove();
     resetFlippedCards();
     errors++;
-    errorsCounter.innerText = errors;
+    errorsCounter.innerText = `Errors: ${errors}`;
 }
 
+//on click, start game: clean the board, shuffle cards, init errors counter to 0
 function startGame() {
     board.innerHTML = '';
     shuffleCards(shuffledCards, cards);
     generateCards(shuffledCards);
     errors = 0;
-    errorsCounter.innerText = errors;
+    errorsCounter.innerText = `Errors: ${errors}`;
 }
 
-startGame()
+startBtn.addEventListener('click', startGame);
 
 //shuffleCards(shuffledCards, cards)
 //console.log(shuffledCards);
