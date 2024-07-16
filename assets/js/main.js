@@ -10,6 +10,7 @@ let shuffledCards = [];
 
 let firstCardFlipped = null;
 let secondCardFlipped = null;
+let errors = 0;
 
 
 function getRndInteger(min, max) {
@@ -93,12 +94,16 @@ function turnBackCards() {
     firstCardFlipped.querySelector('img').remove();
     secondCardFlipped.querySelector('img').remove();
     resetFlippedCards();
+    errors++;
+    errorsCounter.innerText = errors;
 }
 
 function startGame() {
     board.innerHTML = '';
     shuffleCards(shuffledCards, cards);
     generateCards(shuffledCards);
+    errors = 0;
+    errorsCounter.innerText = errors;
 }
 
 startGame()
