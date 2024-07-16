@@ -37,14 +37,62 @@ function shuffleCards(shuffledArray, originalArray) {
     return shuffledArray;
 }
 
+//generate a div element with class card and add evento listener to flip card
 function generateCards(shuffledArray) {
-    shuffledArray.forEach(card => {
+    shuffledArray.forEach(element => {
         const singleCard = document.createElement('div');
         singleCard.classList.add('card');
-        singleCard.dataset.cardSymbol = card;
-        singleCard.innerHTML = card;
+        singleCard.dataset.cardSymbol = element;
+        //singleCard.innerHTML = card;
+        singleCard.addEventListener('click', flipCard);
         board.appendChild(singleCard);
     })
+}
+
+//make the image appear based on the dataset, assign first card, assign second card and check for match
+function flipCard() {
+
+    /* if I try to reclick on the uncovered card or on a matched card, it doesn't create a new image*/
+    if (this === firstCardFlipped || this.classList.contains('matched')) {
+        return;
+    }
+
+    let cardSymbol = this.dataset.cardSymbol;
+    const symbolImage = document.createElement('img');
+    symbolImage.setAttribute('src', `./assets/img/${cardSymbol}.png`);
+    this.appendChild(symbolImage);
+
+    if (!firstCardFlipped) {
+        //console.log(this);
+        firstCardFlipped = this;
+    }
+    else {
+        secondCardFlipped = this;
+        checkForMatch();
+    }
+}
+
+/* if first card and second card have the same symbol, reset them to null and leave matched cards uncovered on the board, otherwise turn them back  */
+function checkForMatch() {
+    if (firstCardFlipped.dataset.cardSymbol === secondCardFlipped.dataset.cardSymbol) {
+        firstCardFlipped.classList.add('matched');
+        secondCardFlipped.classList.add('matched');
+        resetFlippedCards();
+    }
+    else {
+        setTimeout(turnBackCards, 500);
+    }
+}
+
+function resetFlippedCards() {
+    firstCardFlipped = null;
+    secondCardFlipped = null;
+}
+
+function turnBackCards() {
+    firstCardFlipped.querySelector('img').remove();
+    secondCardFlipped.querySelector('img').remove();
+    resetFlippedCards();
 }
 
 function startGame() {
