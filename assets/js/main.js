@@ -2,9 +2,11 @@
 const board = document.getElementById('board');
 const errorsCounter = document.getElementById('errors-counter');
 const startBtn = document.getElementById('startBtn');
+const difficultyButtons = document.querySelectorAll('.difficulty-btn');
 
 /* cards array */
-const cards = ['alien', 'bug', 'duck', 'rocket', 'spaceship', 'tiktac', 'alien', 'bug', 'duck', 'rocket', 'spaceship', 'tiktac'];
+const easyCards = ['pikachu', 'bulbasaur', 'squirtle', 'charmender', 'jigglypuff', 'gastly'];
+const hardCards = ['eevee', 'magikarp', 'magnemite', 'snorlax', 'staryu', 'voltorb'];
 
 /* init variables I need */
 let shuffledCards = [];
@@ -13,6 +15,8 @@ let firstCardFlipped = null;
 let secondCardFlipped = null;
 let errors = 0;
 let flippingCards = false;
+
+let selectedDifficulty = 'easy';
 
 
 function getRndInteger(min, max) {
@@ -44,9 +48,18 @@ function shuffleCards(shuffledArray, originalArray) {
 function generateCards(shuffledArray) {
     shuffledArray.forEach(element => {
         const singleCard = document.createElement('div');
-        singleCard.classList.add('card');
+        singleCard.classList.add('card', 'back');
         singleCard.dataset.cardSymbol = element;
         //singleCard.innerHTML = card;
+
+        //dynamic grid
+        if (selectedDifficulty === 'easy') {
+            singleCard.classList.add('col-3');
+        }
+        else if (selectedDifficulty === 'hard') {
+            singleCard.classList.add('col-2');
+        }
+
         singleCard.addEventListener('click', flipCard);
         board.appendChild(singleCard);
     })
@@ -68,9 +81,13 @@ function flipCard() {
     if (!firstCardFlipped) {
         //console.log(this);
         firstCardFlipped = this;
+        this.classList.remove('back');
+        this.classList.add('flipped');
     }
     else {
         secondCardFlipped = this;
+        this.classList.remove('back');
+        this.classList.add('flipped');
         flippingCards = true;
         checkForMatch();
     }
@@ -95,25 +112,58 @@ function resetFlippedCards() {
     flippingCards = false;
 }
 
-//turn back cards and reset them to null; display error counter
+//turn back cards and reset them to null; display error counter; turn cards to their back;
 function turnBackCards() {
-    firstCardFlipped.querySelector('img').remove();
-    secondCardFlipped.querySelector('img').remove();
+    cardsFlipped = [firstCardFlipped, secondCardFlipped];
+    cardsFlipped.forEach(cardFlipped => {
+        cardFlipped.querySelector('img').remove();
+        cardFlipped.classList.remove('flipped');
+        cardFlipped.classList.add('back');
+    })
+
     resetFlippedCards();
     errors++;
     errorsCounter.innerText = `Errors: ${errors}`;
 }
 
+//set difficulty
+function setDifficulty() {
+    difficultyButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            //remove chosen from all buttons and assign chosen to selected button
+            document.querySelector('.difficulty-btn.chosen')?.classList.remove('chosen');
+            this.classList.add('chosen');
+            selectedDifficulty = this.dataset.difficulty;
+            //console.log(selectedDifficulty);
+        })
+    })
+}
+
 //on click, start game: clean the board, shuffle cards, init errors counter to 0
 function startGame() {
     board.innerHTML = '';
+    shuffledCards = [];
+
+    let cards;
+    if (selectedDifficulty === 'easy') {
+        cards = [...easyCards, ...easyCards];
+    }
+    else if (selectedDifficulty === 'hard') {
+        cards = [...easyCards, ...easyCards, ...hardCards, ...hardCards];
+    }
+
+    //console.log(cards);
     shuffleCards(shuffledCards, cards);
+    //console.log(shuffledCards);
     generateCards(shuffledCards);
     errors = 0;
     errorsCounter.innerText = `Errors: ${errors}`;
 }
 
-startBtn.addEventListener('click', startGame);
+document.addEventListener('DOMContentLoaded', () => {
+    setDifficulty();
+    startBtn.addEventListener('click', startGame);
+})
 
 //shuffleCards(shuffledCards, cards)
 //console.log(shuffledCards);
