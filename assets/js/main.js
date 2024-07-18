@@ -3,6 +3,7 @@ const board = document.getElementById('board');
 const errorsCounter = document.getElementById('errors-counter');
 const startBtn = document.getElementById('start-btn');
 const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+const scoreElement = document.getElementById('score');
 
 const startPage = document.getElementById('start');
 
@@ -16,6 +17,7 @@ let shuffledCards = [];
 let firstCardFlipped = null;
 let secondCardFlipped = null;
 let errors = 0;
+let score = 0;
 let flippingCards = false;
 let matchedCards = [];
 
@@ -133,10 +135,25 @@ function turnBackCards() {
 
 function checkForWin() {
     if (matchedCards.length === shuffledCards.length / 2) {
+        //empty board
         board.innerHTML = '';
+        //cancel errors
+        errorsCounter.style.display = 'none';
+        //restart game buttons appearance
         startPage.style.display = 'flex';
         startBtn.children[0].src = './assets/img/restart.png'
+        //calc score
+        calcScore();
+        //console.log(score);
+        //print score
+        scoreElement.style.display = "block";
+        scoreElement.innerHTML = `Score: ${score}`;
     }
+}
+
+function calcScore() {
+    score = (shuffledCards.length * 10) - (errors * 3);
+    return score;
 }
 
 //set difficulty

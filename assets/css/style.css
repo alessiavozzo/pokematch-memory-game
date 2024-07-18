@@ -6,7 +6,7 @@
 
 :root {
     --poke-blu: #143980;
-    --poke-yellow: #e0a736;
+    --poke-yellow: #f9ce4e;
 }
 
 @font-face {
@@ -157,6 +157,14 @@ body {
     font-size: 3vw;
     width: 30%;
     text-align: center;
+    color: var(--poke-yellow);
+    -webkit-text-stroke: 4px var(--poke-blu);
+}
+
+#score {
+    display: none;
+    font-size: 4.5rem;
+    margin-bottom: 5rem;
     color: var(--poke-yellow);
     -webkit-text-stroke: 4px var(--poke-blu);
 }
