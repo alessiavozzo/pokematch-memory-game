@@ -1,8 +1,10 @@
 /* get dom elements */
 const board = document.getElementById('board');
 const errorsCounter = document.getElementById('errors-counter');
-const startBtn = document.getElementById('startBtn');
+const startBtn = document.getElementById('start-btn');
 const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+
+const startPage = document.getElementById('start');
 
 /* cards array */
 const easyCards = ['pikachu', 'bulbasaur', 'squirtle', 'charmender', 'jigglypuff', 'gastly'];
@@ -139,8 +141,9 @@ function setDifficulty() {
     })
 }
 
-//on click, start game: clean the board, shuffle cards, init errors counter to 0
+//on click, start game: clean the board, assign cards, shuffle cards, init errors counter to 0
 function startGame() {
+    startPage.style.display = "none";
     board.innerHTML = '';
     shuffledCards = [];
 
@@ -160,6 +163,7 @@ function startGame() {
     errorsCounter.innerText = `Errors: ${errors}`;
 }
 
+//on page load
 document.addEventListener('DOMContentLoaded', () => {
     setDifficulty();
     startBtn.addEventListener('click', startGame);
