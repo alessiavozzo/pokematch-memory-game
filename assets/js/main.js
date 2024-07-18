@@ -17,6 +17,7 @@ let firstCardFlipped = null;
 let secondCardFlipped = null;
 let errors = 0;
 let flippingCards = false;
+let matchedCards = [];
 
 let selectedDifficulty = 'easy';
 
@@ -46,7 +47,7 @@ function shuffleCards(shuffledArray, originalArray) {
     return shuffledArray;
 }
 
-//generate a div element with class card and add evento listener to flip card
+//generate a div element with class card and add event listener to flip card
 function generateCards(shuffledArray) {
     shuffledArray.forEach(element => {
         const singleCard = document.createElement('div');
@@ -95,12 +96,14 @@ function flipCard() {
     }
 }
 
-/* if first card and second card have the same symbol, reset them to null and leave matched cards uncovered on the board, otherwise turn them back  */
+/* if first card and second card have the same symbol, push symbol in matched cards, reset them to null and leave matched cards uncovered on the board, otherwise turn them back  */
 function checkForMatch() {
     if (firstCardFlipped.dataset.cardSymbol === secondCardFlipped.dataset.cardSymbol) {
         firstCardFlipped.classList.add('matched');
         secondCardFlipped.classList.add('matched');
+        matchedCards.push(firstCardFlipped.dataset.cardSymbol);
         resetFlippedCards();
+        checkForWin();
     }
     else {
         setTimeout(turnBackCards, 500);
@@ -126,6 +129,14 @@ function turnBackCards() {
     resetFlippedCards();
     errors++;
     errorsCounter.innerText = `Errors: ${errors}`;
+}
+
+function checkForWin() {
+    if (matchedCards.length === shuffledCards.length / 2) {
+        board.innerHTML = '';
+        startPage.style.display = 'flex';
+        startBtn.children[0].src = './assets/img/restart.png'
+    }
 }
 
 //set difficulty
@@ -167,6 +178,7 @@ function startGame() {
 document.addEventListener('DOMContentLoaded', () => {
     setDifficulty();
     startBtn.addEventListener('click', startGame);
+    //console.log(startBtn.children[0]);
 })
 
 //shuffleCards(shuffledCards, cards)

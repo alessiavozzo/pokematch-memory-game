@@ -11,24 +11,29 @@
 
 <body>
 
-    <div id="start">
-        <button type="button" id="start-btn">
-            <img src="./assets/img/start.png" alt="start game button">
-        </button>
+    <div class="container">
 
-        <div id="difficulty">
-            <button type="button" class="difficulty-btn easy" autofocus data-difficulty="easy">
-                <img src="./assets/img/easy.png" alt="easy">
+        <div id="start">
+
+            <button type="button" id="start-btn">
+                <img src="./assets/img/start.png" alt="start game button">
             </button>
-            <button type="button" class="difficulty-btn hard" data-difficulty="hard">
-                <img src="./assets/img/hard.png" alt="hard">
-            </button>
+
+            <div id="difficulty">
+                <button type="button" class="difficulty-btn easy" autofocus data-difficulty="easy">
+                    <img src="./assets/img/easy.png" alt="easy">
+                </button>
+                <button type="button" class="difficulty-btn hard" data-difficulty="hard">
+                    <img src="./assets/img/hard.png" alt="hard">
+                </button>
+            </div>
         </div>
+
+        <div id="board"></div>
+
+        <div id="errors-counter"></div>
     </div>
 
-    <div id="board"></div>
-
-    <div id="errors-counter"></div>
 
     <script src="./assets/js/main.js"></script>
 </body>
