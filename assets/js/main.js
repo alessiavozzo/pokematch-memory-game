@@ -4,6 +4,8 @@ const errorsCounter = document.getElementById('errors-counter');
 const startBtn = document.getElementById('start-btn');
 const difficultyButtons = document.querySelectorAll('.difficulty-btn');
 const scoreElement = document.getElementById('score');
+const scoresBtn = document.getElementById('score-btn');
+const scoresList = document.querySelector('.scores-list');
 
 const startPage = document.getElementById('start');
 
@@ -144,6 +146,7 @@ function checkForWin() {
         startBtn.children[0].src = './assets/img/restart.png'
         //calc score
         calcScore();
+        saveScore();
         //console.log(score);
         //print score
         scoreElement.style.display = "block";
@@ -151,10 +154,40 @@ function checkForWin() {
     }
 }
 
+//calc score: each match has a value of 10 points, each error has a value of -3 points
 function calcScore() {
     score = (shuffledCards.length * 10) - (errors * 3);
     return score;
 }
+
+//save score data as an object and push in into an array taken from local storage on gameScores key
+//set gameScores key
+function saveScore() {
+    const gameScoreData = {
+        score: score,
+        difficulty: selectedDifficulty,
+        date: new Date().toDateString()
+    };
+
+    let gameScores = JSON.parse(localStorage.getItem('gameScores')) || [];
+    gameScores.push(gameScoreData);
+    localStorage.setItem('gameScores', JSON.stringify(gameScores));
+}
+
+//show scores: take gamescores from local storage, loop inside of it and print each element as a list item
+function showYourScores() {
+    let gameScores = JSON.parse(localStorage.getItem('gameScores')) || [];
+
+    gameScores.forEach(score => {
+        console.log(score);
+        let singleScore = document.createElement('li');
+        singleScore.innerHTML = `Score: ${score.score}`;
+        scoresList.appendChild(singleScore);
+    });
+}
+
+//on scores button click, show scores
+scoresBtn.addEventListener('click', showYourScores);
 
 //set difficulty
 function setDifficulty() {
@@ -188,6 +221,8 @@ function startGame() {
     //console.log(shuffledCards);
     generateCards(shuffledCards);
     errors = 0;
+
+    errorsCounter.style.display = 'block';
     errorsCounter.innerText = `Errors: ${errors}`;
 }
 
