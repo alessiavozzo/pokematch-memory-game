@@ -8,6 +8,7 @@ const scoresBtn = document.getElementById('score-btn');
 const scoresList = document.querySelector('.scores-list');
 const scoresPage = document.getElementById('scores-page');
 const closeScoresBtn = document.querySelector('.close-modal');
+const resetBtn = document.querySelector('.reset-btn');
 
 const startPage = document.getElementById('start');
 
@@ -143,6 +144,7 @@ function checkForWin() {
         board.innerHTML = '';
         //cancel errors
         errorsCounter.style.display = 'none';
+        resetBtn.style.display = 'block';
         //restart game buttons appearance
         startPage.style.display = 'flex';
         startBtn.children[0].src = './assets/img/restart.png'
@@ -211,6 +213,10 @@ scoresBtn.addEventListener('click', showYourScores);
 
 closeScoresBtn.addEventListener('click', closeScores);
 
+resetBtn.addEventListener('click', () => {
+    window.location.reload();
+})
+
 //set difficulty
 function setDifficulty() {
     difficultyButtons.forEach(button => {
@@ -245,6 +251,7 @@ function startGame() {
     errors = 0;
 
     errorsCounter.style.display = 'block';
+    resetBtn.style.display = 'block';
     errorsCounter.innerText = `Errors: ${errors}`;
 }
 

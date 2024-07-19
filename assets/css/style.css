@@ -1,9 +1,13 @@
+/* #region reset */
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
+/* #endregion reset */
+
+/* #region common */
 :root {
     --poke-blu: #143980;
     --poke-yellow: #f9ce4e;
@@ -36,6 +40,9 @@ body {
     justify-content: space-between;
 }
 
+/* #endregion common */
+
+/* #region gameboard */
 #board {
     display: flex;
     flex-wrap: wrap;
@@ -58,6 +65,7 @@ body {
 
         &:hover {
             cursor: pointer;
+            border: 1px solid white;
         }
 
         img {
@@ -97,6 +105,42 @@ body {
     }
 }
 
+.right {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    #errors-counter {
+        font-size: 2.5rem;
+        text-align: center;
+        color: var(--poke-yellow);
+        -webkit-text-stroke: 3px var(--poke-blu);
+        margin-bottom: 1rem;
+        text-shadow: -4px 4px 2px var(--poke-blu);
+    }
+
+    .reset-btn {
+        color: var(--poke-yellow);
+        -webkit-text-stroke: 3px var(--poke-blu);
+        font-family: 'pokemonsolid', sans-serif;
+        width: 70%;
+        font-size: 2.5rem;
+        text-shadow: -4px 4px 2px var(--poke-blu);
+        text-align: center;
+        display: none;
+
+        &:hover {
+            cursor: pointer;
+            -webkit-text-stroke: 3px white;
+            color: var(--poke-blu);
+        }
+    }
+}
+
+/* #endregion gameboard */
+
+/* #region startpage */
 #start {
     position: absolute;
     top: 50%;
@@ -106,6 +150,16 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    .title {
+        width: 70%;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
 
     #start-btn,
     #score-btn {
@@ -131,7 +185,7 @@ body {
     #score-btn {
         width: 200px;
         background-color: white;
-        margin-top: 5rem;
+        margin-top: 3rem;
     }
 
     #difficulty {
@@ -162,13 +216,9 @@ body {
     }
 }
 
-#errors-counter {
-    font-size: 3vw;
-    width: 30%;
-    text-align: center;
-    color: var(--poke-yellow);
-    -webkit-text-stroke: 4px var(--poke-blu);
-}
+/* #endregion startpage */
+
+/* #region score */
 
 #score {
     display: none;
@@ -247,3 +297,23 @@ body {
         }
     }
 }
+
+/* #endregion score */
+
+/* #region scrollbar */
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px var(--poke-yellow);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--poke-blu);
+    border-radius: 10px;
+}
+
+/* #endregion scrollbar */
