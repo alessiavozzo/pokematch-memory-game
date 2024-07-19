@@ -6,6 +6,8 @@ const difficultyButtons = document.querySelectorAll('.difficulty-btn');
 const scoreElement = document.getElementById('score');
 const scoresBtn = document.getElementById('score-btn');
 const scoresList = document.querySelector('.scores-list');
+const scoresPage = document.getElementById('scores-page');
+const closeScoresBtn = document.querySelector('.close-modal');
 
 const startPage = document.getElementById('start');
 
@@ -166,7 +168,7 @@ function saveScore() {
     const gameScoreData = {
         score: score,
         difficulty: selectedDifficulty,
-        date: new Date().toDateString()
+        date: new Date().toLocaleString()
     };
 
     let gameScores = JSON.parse(localStorage.getItem('gameScores')) || [];
@@ -176,18 +178,38 @@ function saveScore() {
 
 //show scores: take gamescores from local storage, loop inside of it and print each element as a list item
 function showYourScores() {
+
+    scoresPage.style.display = 'block';
+
     let gameScores = JSON.parse(localStorage.getItem('gameScores')) || [];
+    scoresList.innerHTML = '';
 
     gameScores.forEach(score => {
-        console.log(score);
-        let singleScore = document.createElement('li');
-        singleScore.innerHTML = `Score: ${score.score}`;
-        scoresList.appendChild(singleScore);
+        //console.log(score);
+        let row = document.createElement('tr');
+        let scoreCell = document.createElement('td');
+        let difficultyCell = document.createElement('td');
+        let dateCell = document.createElement('td');
+
+        scoreCell.innerHTML = score.score;
+        difficultyCell.innerHTML = score.difficulty;
+        dateCell.innerHTML = score.date;
+
+        row.appendChild(scoreCell);
+        row.appendChild(difficultyCell);
+        row.appendChild(dateCell);
+        scoresList.appendChild(row);
     });
 }
 
-//on scores button click, show scores
+function closeScores() {
+    scoresPage.style.display = 'none';
+}
+
+//on scores button click show scores
 scoresBtn.addEventListener('click', showYourScores);
+
+closeScoresBtn.addEventListener('click', closeScores);
 
 //set difficulty
 function setDifficulty() {

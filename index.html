@@ -15,12 +15,15 @@
 
         <div id="start">
 
+            <!-- score: appear after ending a game -->
             <div id="score"></div>
 
+            <!-- start game button -->
             <button type="button" id="start-btn">
                 <img src="./assets/img/start.png" alt="start game button">
             </button>
 
+            <!-- select difficulty buttons -->
             <div id="difficulty">
                 <button type="button" class="difficulty-btn easy" autofocus data-difficulty="easy">
                     <img src="./assets/img/easy.png" alt="easy">
@@ -29,6 +32,14 @@
                     <img src="./assets/img/hard.png" alt="hard">
                 </button>
             </div>
+
+            <!-- show scores button -->
+            <button type="button" id="score-btn">
+                <img src="./assets/img/scores.png" alt="your scores button">
+            </button>
+
+
+
         </div>
 
         <div id="board"></div>
@@ -38,11 +49,26 @@
 
     </div>
 
-    <button type="button" id="score-btn">Your scores</button>
-    <div id="scores-modal">
-        <ul class="scores-list"></ul>
-    </div>
+    <!-- scores modal -->
+    <div id="scores-page">
+        <div id="scores-modal">
+            <div class="modal-header">
+                <button type="button" class="close-modal">X</button>
+            </div>
+            <h2>Scores</h2>
+            <table class="scores-table">
+                <thead>
+                    <tr>
+                        <th>Score</th>
+                        <th>Difficulty</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
 
+                <tbody class="scores-list"></tbody>
+            </table>
+        </div>
+    </div>
 
     <script src="./assets/js/main.js"></script>
 </body>
